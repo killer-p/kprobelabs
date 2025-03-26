@@ -16,11 +16,10 @@ static pKprobeLabsFunc KProbeLabsFuncs[] = {
     KmallocUnit,
 };
 
-// ioctl实现
 static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
-    size_t len = _IOC_SIZE(cmd);  // 从cmd中提取参数长度
-    int funIndex = _IOC_NR(cmd);  // 从cmd中提取功能号
+    size_t len = _IOC_SIZE(cmd);
+    int funIndex = _IOC_NR(cmd);
     char param[256] = {0};
 
     if (len > sizeof(param))
@@ -38,7 +37,6 @@ static ssize_t KProbeLabsRead(struct file *filp, char *buffer, size_t length, lo
     const char *message = "Hello from KProbeLabs device!\n";
     int message_size = strlen(message);
     
-    // 将数据复制到用户空间
     if (copy_to_user(buffer, message, message_size))
         return -EFAULT;
 
@@ -50,24 +48,20 @@ static struct file_operations KProbeLabsFops = {
     .unlocked_ioctl = KProbeLabsIoctl,
 };
 
-// 模块初始化函数
 static int __init KProbeLabsInit(void)
 {
-    // 注册字符设备
     major_number = register_chrdev(0, DEVICE_NAME, &KProbeLabsFops);
     if (major_number < 0) {
         printk(KERN_ALERT "Failed to register a major number\n");
         return major_number;
     }
 
-    // 创建设备类
     KProbeLabsClass = class_create(THIS_MODULE, DEVICE_NAME);
     if (IS_ERR(KProbeLabsClass)) {
         unregister_chrdev(major_number, DEVICE_NAME);
         return PTR_ERR(KProbeLabsClass);
     }
 
-    // 创建设备节点
     KProbeLabsDevice = device_create(KProbeLabsClass, NULL, MKDEV(major_number, 0), NULL, DEVICE_NAME);
     if (IS_ERR(KProbeLabsDevice)) {
         class_destroy(KProbeLabsClass);
@@ -79,7 +73,6 @@ static int __init KProbeLabsInit(void)
     return 0;
 }
 
-// 模块退出函数
 static void __exit KProbeLabsDeinit(void)
 {
     device_destroy(KProbeLabsClass, MKDEV(major_number, 0));
@@ -88,11 +81,9 @@ static void __exit KProbeLabsDeinit(void)
     printk(KERN_INFO "The KProbeLabs driver has been unloaded.\n");
 }
 
-// 注册模块初始化和退出函数
 module_init(KProbeLabsInit);
 module_exit(KProbeLabsDeinit);
 
-// 模块许可声明
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("runxin.pan");
 MODULE_DESCRIPTION("A Linux kernel driver which can help you start to study linux source code.");
