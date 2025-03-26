@@ -14,6 +14,7 @@ static struct class *KProbeLabsClass;
 static struct device *KProbeLabsDevice;
 static pKprobeLabsFunc KProbeLabsFuncs[] = {
     KmallocUnit,
+    DumpBacktraceUnit,
 };
 
 static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long arg)
@@ -23,12 +24,22 @@ static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long a
     char param[256] = {0};
 
     if (len > sizeof(param))
+    {
+        printk(KERN_WARNING "KProbeLabsIoctl: len > sizeof(param)\n");
         return -EINVAL;
-    if (copy_from_user(param, (char __user *)arg, len))
+    }
+    if (len > 0 && copy_from_user(param, (char __user *)arg, len))
+    {
+        printk(KERN_WARNING "KProbeLabsIoctl: copy_from_user failed\n");
         return -EFAULT;
 
+    }
+
     if (funIndex < 0 || funIndex >= sizeof(KProbeLabsFuncs) / sizeof(pKprobeLabsFunc))
+    {
+        printk(KERN_WARNING "KProbeLabsIoctl: funIndex out of range\n");
         return -EINVAL;
+    }
     return KProbeLabsFuncs[funIndex]((void*)param);
 }
 

@@ -11,4 +11,5 @@ typedef struct
 } UnitDesc;
 
 int kmallocUnit(int argc, char *argv[], int fd);
+int dumpBacktraceUnit(int argc, char *argv[], int fd);
 #endif

@@ -14,6 +14,10 @@ git clone https://github.com/LuckfoxTECH/luckfox-pico.git
 cd luckfox-pico
 ./build.sh lunch
 ./build.sh
+
+cd sysdrv/source/kernel
+make luckfox_rv1106_linux_defconfig
+bear -- make -j8
 ```
 
 then clone the project: 

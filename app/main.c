@@ -10,6 +10,7 @@
 
 static UnitDesc desc[] = {
     {kmallocUnit, "kmalloc"},
+    {dumpBacktraceUnit, "dump_backtrace"},
 };
 
 void print_usage() {
@@ -37,12 +38,16 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    for (i = 0; i < sizeof(desc) / sizeof(desc); i++) {
+    for (i = 0; i < sizeof(desc) / sizeof(UnitDesc); i++) {
         if (strcmp(argv[1], desc[i].UnitName) == 0) {
             desc[i].UnitFunc(argc, argv, fd);
             break;
         }
     }
     close(fd);
+    if (i == sizeof(desc) / sizeof(UnitDesc)) {
+        printf("unit %s not found\n", argv[1]);
+        return 1;
+    }
     return 0;
 }
