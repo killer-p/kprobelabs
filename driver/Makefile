@@ -1,8 +1,14 @@
 CROSS_COMPILE ?= arm-rockchip830-linux-uclibcgnueabihf-
 
-kprobelabs-objs := entry.o
-kprobelabs-objs += units/kmalloc_kernel.o
-kprobelabs-objs += units/dump_backtrace_kernel.o
+SRCS += 
+SRCS := entry.c
+SRCS += units/kmalloc_kernel.c
+SRCS += units/dump_backtrace_kernel.c
+SRCS += units/proc_kernel.c
+
+OBJS = $(SRCS:.c=.o)
+
+kprobelabs-objs := $(OBJS)
 
 obj-m += kprobelabs.o
 

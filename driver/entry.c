@@ -15,6 +15,7 @@ static struct device *KProbeLabsDevice;
 static pKprobeLabsFunc KProbeLabsFuncs[] = {
     KmallocUnit,
     DumpBacktraceUnit,
+    ProcUnit,
 };
 
 static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long arg)

@@ -3,7 +3,10 @@ CC = arm-rockchip830-linux-uclibcgnueabihf-gcc
 PROJECT_ROOT=$(CURDIR)/../
 
 TARGET = kprobelabs
-SRCS = main.c units/kmalloc_user.c units/dump_backtrace_user.c
+SRCS += main.c 
+SRCS += units/kmalloc_user.c
+SRCS += units/dump_backtrace_user.c
+SRCS += units/proc_user.c
 
 OBJS = $(SRCS:.c=.o)
 
