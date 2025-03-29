@@ -4,20 +4,24 @@
 #include "units_user.h"
 
 static void kmallocHelp() {
-    printf("Usage: kmalloc [size]\n");
-    printf("Allocate memory of size [size] bytes\n");
+    printf("Usage: kmalloc [bmalloc] [size]\n");
+    printf("Allocate/free memory of [size] bytes\n");
 }
 
 int kmallocUnit(int argc, char *argv[], int fd) {
-    int size;
+    struct kmallocArgs kmalloc = {0};
 
     if (argc < 3) 
     {
         kmallocHelp();
         return 1;
     }
-    size = atoi(argv[2]);
-    if (ioctl(fd, KPROBELABS_IOCTL_KMALLOC, &size) < 0)
+    kmalloc.bMalloc = atoi(argv[2]);
+    if (kmalloc.bMalloc)
+    {
+        kmalloc.size = atoi(argv[3]);
+    }
+    if (ioctl(fd, KPROBELABS_IOCTL_KMALLOC, &kmalloc) < 0)
     {
         perror("KPROBELABS_IOCTL_KMALLOC return error");
         return 1;

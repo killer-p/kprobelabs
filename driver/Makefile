@@ -1,6 +1,5 @@
 CROSS_COMPILE ?= arm-rockchip830-linux-uclibcgnueabihf-
 
-SRCS += 
 SRCS := entry.c
 SRCS += units/kmalloc_kernel.c
 SRCS += units/dump_backtrace_kernel.c

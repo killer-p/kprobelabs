@@ -44,19 +44,7 @@ static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long a
     return KProbeLabsFuncs[funIndex]((void*)param);
 }
 
-static ssize_t KProbeLabsRead(struct file *filp, char *buffer, size_t length, loff_t *offset)
-{
-    const char *message = "Hello from KProbeLabs device!\n";
-    int message_size = strlen(message);
-    
-    if (copy_to_user(buffer, message, message_size))
-        return -EFAULT;
-
-    return message_size;
-}
-
 static struct file_operations KProbeLabsFops = {
-    .read = KProbeLabsRead,
     .unlocked_ioctl = KProbeLabsIoctl,
 };
 
