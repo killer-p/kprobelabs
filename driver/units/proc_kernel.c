@@ -12,7 +12,7 @@ static struct proc_ops proc_ops = {
     .proc_release = single_release,
 };
 
-static int ProcInit(void)
+int procInit(void)
 {
     if (pKprobelabsProc != NULL)
     {
@@ -27,7 +27,7 @@ static int ProcInit(void)
     return 0;
 }
 
-static int ProcExit(void)
+int procExit(void)
 {
     if (pKprobelabsProc != NULL)
     {
@@ -35,22 +35,6 @@ static int ProcExit(void)
         return 0;
     }
     return -1;
-}
-
-
-int ProcUnit(void *arg)
-{
-    int bInit = *(int *)arg;
-
-    if (bInit)
-    {
-        return ProcInit();
-    }
-    else
-    {
-        return ProcExit();
-    }
-
 }
 
 static int kprobelabsProcShow(struct seq_file *m, void *v)

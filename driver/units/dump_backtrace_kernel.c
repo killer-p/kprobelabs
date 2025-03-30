@@ -5,7 +5,7 @@
 // need to export show_stack in kernel source code:EXPORT_SYMBOL_GPL(show_stack);
 extern void show_stack(struct task_struct *tsk, unsigned long *sp, const char *loglvl);
 
-int DumpBacktraceUnit(void *arg)
+int dumpBacktraceUnit(void *arg)
 {
     struct task_struct *task;
     printk("DumpBacktraceUnit\n");

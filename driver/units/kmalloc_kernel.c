@@ -5,7 +5,7 @@
 
 static void *ptr;
 
-int KmallocUnit(void *arg)
+int kmallocUnit(void *arg)
 {
     struct kmallocArgs *p = (struct kmallocArgs *)arg;
 

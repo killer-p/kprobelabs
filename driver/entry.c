@@ -12,16 +12,18 @@
 static int major_number;
 static struct class *KProbeLabsClass;
 static struct device *KProbeLabsDevice;
-static pKprobeLabsFunc KProbeLabsFuncs[] = {
-    KmallocUnit,
-    DumpBacktraceUnit,
-    ProcUnit,
+
+static struct KprobeLabsUnit units[] =
+{
+    {kmallocUnit, NULL, NULL},
+    {dumpBacktraceUnit, NULL, NULL},
+    {NULL, procInit, procInit},
 };
 
 static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
     size_t len = _IOC_SIZE(cmd);
-    int funIndex = _IOC_NR(cmd);
+    int unitIndex = _IOC_NR(cmd);
     char param[256] = {0};
 
     if (len > sizeof(param))
@@ -36,12 +38,12 @@ static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long a
 
     }
 
-    if (funIndex < 0 || funIndex >= sizeof(KProbeLabsFuncs) / sizeof(pKprobeLabsFunc))
+    if (unitIndex < 0 || unitIndex >= sizeof(units) / sizeof(struct KprobeLabsUnit))
     {
         printk(KERN_WARNING "KProbeLabsIoctl: funIndex out of range\n");
         return -EINVAL;
     }
-    return KProbeLabsFuncs[funIndex]((void*)param);
+    return units[unitIndex].func((void*)param);
 }
 
 static struct file_operations KProbeLabsFops = {
@@ -50,6 +52,7 @@ static struct file_operations KProbeLabsFops = {
 
 static int __init KProbeLabsInit(void)
 {
+    int i;
     major_number = register_chrdev(0, DEVICE_NAME, &KProbeLabsFops);
     if (major_number < 0) {
         printk(KERN_ALERT "Failed to register a major number\n");
@@ -69,12 +72,28 @@ static int __init KProbeLabsInit(void)
         return PTR_ERR(KProbeLabsDevice);
     }
 
+
+    for (i = 0; i < sizeof(units) / sizeof(struct KprobeLabsUnit); i++)
+    {
+        if (units[i].init != NULL)
+        {
+            units[i].init();
+        }
+    }
     printk(KERN_INFO "Device node created at /dev/%s\n", DEVICE_NAME);
     return 0;
 }
 
 static void __exit KProbeLabsDeinit(void)
 {
+    int i;
+    for (i = 0; i < sizeof(units) / sizeof(struct KprobeLabsUnit); i++)
+    {
+        if (units[i].deinit!= NULL)
+        {
+            units[i].deinit();
+        }
+    }
     device_destroy(KProbeLabsClass, MKDEV(major_number, 0));
     class_destroy(KProbeLabsClass);
     unregister_chrdev(major_number, DEVICE_NAME);
