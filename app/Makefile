@@ -7,13 +7,14 @@ SRCS += main.c
 SRCS += units/kmalloc_user.c
 SRCS += units/dump_backtrace_user.c
 SRCS += units/proc_user.c
+SRCS += units/poll_user.c
 
 OBJS = $(SRCS:.c=.o)
 
 INC_DIRS = $(PROJECT_ROOT)/app/include $(PROJECT_ROOT)/include
 INC_FLAGS = $(foreach d, $(INC_DIRS), -I$d)
 
-CFLAGS = -Wall -Wextra -O2 $(INC_FLAGS)
+CFLAGS = -Wall -Wextra -g -O0 $(INC_FLAGS)
 
 all: $(TARGET)
 

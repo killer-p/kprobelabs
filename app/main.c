@@ -12,6 +12,7 @@ static UnitDesc desc[] = {
     {kmallocUnit, "kmalloc"},
     {dumpBacktraceUnit, "dump_backtrace"},
     {procUnit, "proc"},
+    {pollUnit, "poll"},
 };
 
 void print_usage() {
@@ -24,7 +25,6 @@ void print_usage() {
 }
 
 int main(int argc, char *argv[]) {
-    char *pFuncName = NULL;
     int i;
     int fd;
 

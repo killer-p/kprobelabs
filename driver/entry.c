@@ -18,6 +18,7 @@ static struct KprobeLabsUnit units[] =
     {kmallocUnit, NULL, NULL},
     {dumpBacktraceUnit, NULL, NULL},
     {NULL, procInit, procInit},
+    {pollUnit, pollInit, pollExit},
 };
 
 static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long arg)
@@ -43,11 +44,16 @@ static long KProbeLabsIoctl(struct file *filp, unsigned int cmd, unsigned long a
         printk(KERN_WARNING "KProbeLabsIoctl: funIndex out of range\n");
         return -EINVAL;
     }
-    return units[unitIndex].func((void*)param);
+    if (units[unitIndex].func)
+    {
+        return units[unitIndex].func((void*)param);
+    }
+    return -1;
 }
 
 static struct file_operations KProbeLabsFops = {
     .unlocked_ioctl = KProbeLabsIoctl,
+    .poll = KProbeLabsPoll,
 };
 
 static int __init KProbeLabsInit(void)

@@ -4,6 +4,7 @@ SRCS := entry.c
 SRCS += units/kmalloc_kernel.c
 SRCS += units/dump_backtrace_kernel.c
 SRCS += units/proc_kernel.c
+SRCS += units/poll_kernel.c
 
 OBJS = $(SRCS:.c=.o)
 
