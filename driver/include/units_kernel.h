@@ -4,20 +4,23 @@
 #include <linux/poll.h>
 #include <linux/wait.h>
 
-typedef int (*pKprobeLabsFunc)(void *arg);
-typedef int (*pKprobeLabsUnitInit)(void);
-typedef int (*pKprobeLabsUnitDeinit)(void);
+typedef int (*kprobelabs_func)(void *arg);
+typedef int (*kprobelabs_unit_init)(void);
+typedef int (*kprobelabs_unit_deinit)(void);
 
-struct KprobeLabsUnit {
-    pKprobeLabsFunc func;
-    pKprobeLabsUnitInit init;
-    pKprobeLabsUnitDeinit deinit;
+struct kprobelabs_unit {
+    kprobelabs_func func;
+    kprobelabs_unit_init init;
+    kprobelabs_unit_deinit deinit;
 };
 
-int kmallocUnit(void *arg);
-int dumpBacktraceUnit(void *arg);
-int procInit(void);
-int procExit(void);
+int kmalloc_unit(void *arg);
+int kmalloc_unit_init(void);
+int kmalloc_unit_deinit(void);
+
+int dump_backtrace_unit(void *arg);
+int proc_init(void);
+int proc_deinit(void);
 int pollInit(void);
 int pollExit(void);
 int pollUnit(void *arg);

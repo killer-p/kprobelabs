@@ -9,7 +9,7 @@
 #include "units_user.h"
 
 static UnitDesc desc[] = {
-    {kmallocUnit, "kmalloc"},
+    {kmalloc_unit, "kmalloc"},
     {dumpBacktraceUnit, "dump_backtrace"},
     {procUnit, "proc"},
     {pollUnit, "poll"},

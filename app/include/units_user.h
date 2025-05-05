@@ -10,7 +10,7 @@ typedef struct
     char UnitName[64];
 } UnitDesc;
 
-int kmallocUnit(int argc, char *argv[], int fd);
+int kmalloc_unit(int argc, char *argv[], int fd);
 int dumpBacktraceUnit(int argc, char *argv[], int fd);
 int procUnit(int argc, char *argv[], int fd);
 int pollUnit(int argc, char *argv[], int fd);
