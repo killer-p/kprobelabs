@@ -19,12 +19,15 @@ int kmalloc_unit_init(void);
 int kmalloc_unit_deinit(void);
 
 int dump_backtrace_unit(void *arg);
+int dump_backtrace_unit_init(void);
+int dump_backtrace_unit_deinit(void);
+
 int proc_init(void);
 int proc_deinit(void);
-int pollInit(void);
-int pollExit(void);
-int pollUnit(void *arg);
-unsigned int KProbeLabsPoll(struct file *file, poll_table *wait);
-int pollUnit(void *arg);
+
+int poll_init(void);
+int poll_deinit(void);
+int poll_unit(void *arg);
+unsigned int kprobelabs_poll(struct file *file, poll_table *wait);
 
 #endif

@@ -2,24 +2,25 @@
 #include <linux/seq_file.h>
 #include <linux/fs.h>
 
-static int kprobelabsProcOpen(struct inode *inode, struct file *file);
+static int proc_open(struct inode *inode, struct file *file);
 
-static struct proc_dir_entry *pKprobelabsProc;
+static struct proc_dir_entry *kprobelabs_entry;
 static struct proc_ops proc_ops = {
     .proc_read = seq_read,
     .proc_lseek = seq_lseek,
-    .proc_open = kprobelabsProcOpen,
+    .proc_open = proc_open,
     .proc_release = single_release,
 };
 
-int procInit(void)
+
+int proc_init(void)
 {
-    if (pKprobelabsProc != NULL)
+    if (kprobelabs_entry != NULL)
     {
         return 0;
     }
-    pKprobelabsProc = proc_create("kprobelabs", 644, NULL, &proc_ops);
-    if (pKprobelabsProc == NULL)
+    kprobelabs_entry = proc_create("kprobelabs", 644, NULL, &proc_ops);
+    if (kprobelabs_entry == NULL)
     {
         return -1;
     }
@@ -27,23 +28,23 @@ int procInit(void)
     return 0;
 }
 
-int procExit(void)
+int proc_deinit(void)
 {
-    if (pKprobelabsProc != NULL)
+    if (kprobelabs_entry != NULL)
     {
-        proc_remove(pKprobelabsProc);
+        proc_remove(kprobelabs_entry);
         return 0;
     }
     return -1;
 }
 
-static int kprobelabsProcShow(struct seq_file *m, void *v)
+static int proc_show(struct seq_file *m, void *v)
 {
     seq_printf(m, "Hello, This is kprobelabs proc\n");
     return 0;
 }
 
-static int kprobelabsProcOpen(struct inode *inode, struct file *file)
+static int proc_open(struct inode *inode, struct file *file)
 {
-	return single_open(file, kprobelabsProcShow, NULL);
+	return single_open(file, proc_show, NULL);
 }

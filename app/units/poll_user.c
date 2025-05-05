@@ -5,22 +5,22 @@
 #include <unistd.h>
 #include "units_user.h"
 
-static void pollHelp() {
+static void unit_help() {
     printf("Usage: poll [timeout_ms]\n");
 }
 
-int pollUnit(int argc, char *argv[], int fd) {
+int poll_unit(int argc, char *argv[], int fd) {
     struct pollfd fds[1];
     int timeout_ms;
     int ret;
 
     if (argc < 3) {
-        pollHelp();
+        unit_help();
         return 1;
     }
     timeout_ms = atoi(argv[2]);
     if (timeout_ms < 0) {
-        pollHelp();
+        unit_help();
         return 1;
     }
     if (ioctl(fd, KPROBELABS_IOCTL_POLL, &timeout_ms) < 0)

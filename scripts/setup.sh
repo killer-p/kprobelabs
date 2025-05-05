@@ -3,7 +3,7 @@
 export ARCH=arm
 export CROSS_COMPILE=arm-rockchip830-linux-uclibcgnueabihf-
 export PATH=/home/prx/project/luckfox-pico/luckfox-pico/tools/linux/toolchain/arm-rockchip830-linux-uclibcgnueabihf/bin:$PATH
-export KDIR=/home/prx/project/luckfox-pico/luckfox-pico/sysdrv/source/kernel
+export KDIR=/home/prx/project/luckfox-pico/luckfox-pico/sysdrv/source/objs_kernel
 export LUCKFOX_SDK_DIR=/home/prx/project/luckfox-pico/luckfox-pico/
 
 

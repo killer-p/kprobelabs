@@ -3,7 +3,7 @@
 #include <sys/ioctl.h>
 #include "units_user.h"
 
-int dumpBacktraceUnit(int argc, char *argv[], int fd)
+int dump_backtrace_unit(int argc, char *argv[], int fd)
 {
     if (ioctl(fd, KPROBELABS_IOCTL_DUMP_BACKTRACE, NULL) < 0)
     {

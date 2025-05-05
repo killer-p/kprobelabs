@@ -6,7 +6,6 @@ TARGET = kprobelabs
 SRCS += main.c 
 SRCS += units/kmalloc_user.c
 SRCS += units/dump_backtrace_user.c
-SRCS += units/proc_user.c
 SRCS += units/poll_user.c
 
 OBJS = $(SRCS:.c=.o)

@@ -10,9 +10,8 @@
 
 static UnitDesc desc[] = {
     {kmalloc_unit, "kmalloc"},
-    {dumpBacktraceUnit, "dump_backtrace"},
-    {procUnit, "proc"},
-    {pollUnit, "poll"},
+    {dump_backtrace_unit, "dump_backtrace"},
+    {poll_unit, "poll"},
 };
 
 void print_usage() {

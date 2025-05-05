@@ -7,26 +7,26 @@ static struct timer_list timer;
 static DECLARE_WAIT_QUEUE_HEAD(poll_wait_queue);
 unsigned int flag;
 
-static void timerCallback(struct timer_list *t)
+static void timer_cb(struct timer_list *t)
 {
-    printk("timerCallback\n");
+    printk("timer_cb\n");
     flag = 1;
     wake_up_interruptible(&poll_wait_queue);
 }
 
-int pollInit(void)
+int poll_init(void)
 {
-    timer_setup(&timer, timerCallback, 0);
+    timer_setup(&timer, timer_cb, 0);
     return 0;
 }
 
-int pollExit(void)
+int poll_deinit(void)
 {
     del_timer(&timer);
     return 0;
 }
 
-int pollUnit(void *arg)
+int poll_unit(void *arg)
 {
     unsigned int count = *(unsigned int *)arg;
     printk("pollUnit start timer\n");
@@ -35,7 +35,7 @@ int pollUnit(void *arg)
     return 0;
 }
 
-unsigned int KProbeLabsPoll(struct file *file, poll_table *wait)
+unsigned int kprobelabs_poll(struct file *file, poll_table *wait)
 {
     poll_wait(file, &poll_wait_queue, wait);
     if (flag)

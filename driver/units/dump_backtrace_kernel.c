@@ -2,16 +2,25 @@
 #include <linux/sched.h>
 #include <linux/sched/signal.h>
 
-// need to export show_stack in kernel source code:EXPORT_SYMBOL_GPL(show_stack);
-//extern void show_stack(struct task_struct *tsk, unsigned long *sp, const char *loglvl);
+int dump_backtrace_unit_init(void)
+{
+    return 0;
+}
 
-int dumpBacktraceUnit(void *arg)
+int dump_backtrace_unit_deinit(void)
+{
+    return 0;
+}
+
+extern void sched_show_task(struct task_struct *p);
+
+int dump_backtrace_unit(void *arg)
 {
     struct task_struct *task;
-    printk("DumpBacktraceUnit\n");
+    printk("dump_backtrace_unit\n");
 
     for_each_process(task) {
-        //show_stack(task, NULL, KERN_WARNING);
+        sched_show_task(task);
     }
     return 0;
 }

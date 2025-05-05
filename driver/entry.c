@@ -16,9 +16,9 @@ static struct device *kprobelabs_dev;
 static struct kprobelabs_unit units[] =
 {
     {kmalloc_unit, kmalloc_unit_init, kmalloc_unit_deinit},
-    //{dumpBacktraceUnit, NULL, NULL},
-    //{NULL, procInit, procInit},
-    //{pollUnit, pollInit, pollExit},
+    {dump_backtrace_unit, dump_backtrace_unit_init, dump_backtrace_unit_deinit},
+    {NULL, proc_init, proc_deinit},
+    {poll_unit, poll_init, poll_deinit},
 };
 
 static long kprobelabs_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
@@ -52,7 +52,7 @@ static long kprobelabs_ioctl(struct file *filp, unsigned int cmd, unsigned long 
 
 static struct file_operations kprobelabs_fops = {
     .unlocked_ioctl = kprobelabs_ioctl,
-    //.poll = kprobelabs_poll,
+    .poll = kprobelabs_poll,
 };
 
 static int __init kprobelabs_init(void)
