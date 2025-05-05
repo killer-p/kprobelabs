@@ -13,5 +13,6 @@ typedef struct
 int kmalloc_unit(int argc, char *argv[], int fd);
 int dump_backtrace_unit(int argc, char *argv[], int fd);
 int poll_unit(int argc, char *argv[], int fd);
+int oom_unit(int argc, char *argv[], int fd);
 
 #endif
